@@ -40,9 +40,9 @@ class chessboard:
         self.board[0][0].append(liste_pieces[4])
         self.board[7][7].append(liste_pieces[4])
         self.board[7][0].append(liste_pieces[4])
-        for i in range(len(self.board)):
-            self.board[6][i].append(liste_pieces[5])
-            self.board[1][i].append(liste_pieces[5])
+        #for i in range(len(self.board)):
+            #self.board[6][i].append(liste_pieces[5])
+            #self.board[1][i].append(liste_pieces[5])
         for i in range(len(self.board)):
             for j in range(len(self.board[i])):
                 if i == 7 : 
@@ -344,18 +344,12 @@ jeu.placement_piece()
 py.init()
 Blanc = (255,255,255)
 Noir = (0,0,0)
+Jaune = (255,255,0)
 Size = 100
+flag = 0
 ecran = py.display.set_mode((Size*8,Size*8))
 
-RoiBlanc = py.image.load('sprite/RB.png').convert_alpha()
-RoiBlanc = py.transform.scale(RoiBlanc,(100,100))
-
-running = True
-while running:
-    for event in py.event.get():
-        if event.type == QUIT:
-            running = False
-    ecran.fill((150,150,150))
+def boardcolor():
     for i in range(8):
         for j in range(8):
             if j%2==0:
@@ -368,16 +362,40 @@ while running:
                     py.draw.rect(ecran, Blanc, Rect(i*Size, j*Size, Size, Size))
                 else :
                     py.draw.rect(ecran, Noir, Rect(i*Size, j*Size, Size, Size))
+
+RoiBlanc = py.image.load('sprite/RB.png').convert_alpha()
+RoiBlanc = py.transform.scale(RoiBlanc,(100,100))
+
+running = True
+while running:
+    for event in py.event.get():
+        if event.type == QUIT:
+            running = False
+    ecran.fill((150,150,150))
+
+    boardcolor()
+
+    if event.type == py.MOUSEBUTTONDOWN and event.button == 1:
+                    posx = event.pos[0]/100-(event.pos[0]%100)/100
+                    posy = event.pos[1]/100-(event.pos[1]%100)/100
+                    flag = 1
+
+    if event.type == py.MOUSEBUTTONUP and event.button == 1:
+                    posx1 = event.pos[0]/100-(event.pos[0]%100)/100
+                    posy1 = event.pos[1]/100-(event.pos[1]%100)/100
+                    jeu.move_roi(int(posx),int(posy),int(posx1),int(posy1))
+          
+
+    if flag == 1 :
+        py.draw.rect(ecran, Jaune, Rect(posx*Size, posy*Size, Size, Size))
+
+    
     for i in range(8):
         for j in range(8):
             if jeu.board[i][j] != [] :
                 if jeu.board[i][j][0] == 'Roi':
                     if jeu.board[i][j][1] == 'B':
                         ecran.blit(RoiBlanc,(j*100,i*100))
-
-    if event.type == py.MOUSEBUTTONDOWN and event.button == 1:
-                    posx = event.pos[0]/100-(event.pos[0]%100)/100
-                    posy = event.pos[1]/100-(event.pos[1]%100)/100
                      
     py.display.flip()
 
