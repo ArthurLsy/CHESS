@@ -347,7 +347,7 @@ jeu.placement_piece()
 py.init()
 Blanc = (255,255,255)
 Noir = (0,0,0)
-Size = 80
+Size = 100
 ecran = py.display.set_mode((Size*8,Size*8))
 
 
@@ -370,7 +370,9 @@ while running:
                 else :
                     py.draw.rect(ecran, Noir, Rect(i*Size, j*Size, Size, Size))
     if event.type == py.MOUSEBUTTONDOWN and event.button == 1:
-                     print(event.pos)
+                     posx = event.pos[0]/100-(event.pos[0]%100)/100
+                     posy = event.pos[1]/100-(event.pos[1]%100)/100
+                     print(jeu.board[int(posy)][int(posx)])
     py.display.flip()
 
 py.quit()
