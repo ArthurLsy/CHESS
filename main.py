@@ -383,7 +383,10 @@ while running:
     if event.type == py.MOUSEBUTTONUP and event.button == 1:
                     posx1 = event.pos[0]/100-(event.pos[0]%100)/100
                     posy1 = event.pos[1]/100-(event.pos[1]%100)/100
-                    jeu.move_roi(int(posx),int(posy),int(posx1),int(posy1))
+
+                    if jeu.board[int(posx)][int(posy)] != [] : 
+                        if jeu.board[int(posx)][int(posy)][0] == 'Roi' :
+                            jeu.move_roi(int(posx),int(posy),int(posx1),int(posy1))
           
 
     if flag == 1 :
