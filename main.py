@@ -1,6 +1,3 @@
-
-#%%
-
 import pygame as py
 from pygame.locals import *
 import sys
@@ -350,6 +347,8 @@ Noir = (0,0,0)
 Size = 100
 ecran = py.display.set_mode((Size*8,Size*8))
 
+RoiBlanc = py.image.load('sprite/RB.png').convert_alpha()
+RoiBlanc = py.transform.scale(RoiBlanc,(100,100))
 
 running = True
 while running:
@@ -369,13 +368,17 @@ while running:
                     py.draw.rect(ecran, Blanc, Rect(i*Size, j*Size, Size, Size))
                 else :
                     py.draw.rect(ecran, Noir, Rect(i*Size, j*Size, Size, Size))
+    for i in range(8):
+        for j in range(8):
+            if jeu.board[i][j] != [] :
+                if jeu.board[i][j][0] == 'Roi':
+                    if jeu.board[i][j][1] == 'B':
+                        ecran.blit(RoiBlanc,(j*100,i*100))
+
     if event.type == py.MOUSEBUTTONDOWN and event.button == 1:
-                     posx = event.pos[0]/100-(event.pos[0]%100)/100
-                     posy = event.pos[1]/100-(event.pos[1]%100)/100
-                     print(jeu.board[int(posy)][int(posx)])
+                    posx = event.pos[0]/100-(event.pos[0]%100)/100
+                    posy = event.pos[1]/100-(event.pos[1]%100)/100
+                     
     py.display.flip()
 
 py.quit()
-
-
-# %%
